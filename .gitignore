@@ -17,6 +17,7 @@ package-lock.json
 # Enviroment variables
 *.env 
 *.env.*
+.env
 
 # Editor directories and files
 .vscode/*
