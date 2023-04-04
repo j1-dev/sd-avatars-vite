@@ -18,18 +18,7 @@ function App() {
   const [imageUrl, setImageUrl] = useState('');
 
   const generateImage = async () => {
-    const imageParameters = {
-      prompt: userPrompt,
-      n: parseInt(number),
-      size: size,
-    };
-    try {
-      const response = await openai.createImage(imageParameters);
-      const urlData = response.data.data[0].url;
-      setImageUrl(urlData);
-    } catch (error) {
-      console.error('Error generating image:', error);
-    }
+    // ...other code
   };
 
   const handleSizeChange = (event) => {
@@ -39,6 +28,7 @@ function App() {
   const handleNumberChange = (value) => {
     setNumber(parseInt(value, 10));
   };
+
   const sizes = ['256x256', '512x512', '1024x1024'];
 
   return (
@@ -46,16 +36,15 @@ function App() {
       <Navbar />
       <Main label={'Empieza a Crear'} setAttribute={setUserPrompt} />
       <Main label={'Numero de Fotos'} setAttribute={handleNumberChange} />
-      <div className="label-input-pair">
-        <label className="label">Tamaño:</label>
-        <select className="main-input" onChange={handleSizeChange}>
-          <option value="256x256">256x256</option>
-          <option value="512x512">512x512</option>
-          <option value="1024x1024">1024x1024</option>
-        </select>
-      </div>
+      <Main
+        label="Tamaño"
+        setAttribute={handleSizeChange}
+        options={sizes}
+      />
       <div className="image-container">
-        {imageUrl && <img src={imageUrl} className="image" alt="ai image" />}
+        {imageUrl && (
+          <img src={imageUrl} className="image" alt="ai image" />
+        )}
       </div>
       <SubmitButton onSubmit={generateImage} />
     </div>
@@ -63,3 +52,7 @@ function App() {
 }
 
 export default App;
+
+
+
+
