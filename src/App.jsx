@@ -6,7 +6,7 @@ import SubmitButton from './components/SubmitButton';
 import { Configuration, OpenAIApi } from 'openai';
 
 const configuration = new Configuration({
-  apiKey: '',
+  apiKey: import.meta.env.VITE_OPEN_AI_API_KEY,
 });
 
 const openai = new OpenAIApi(configuration);

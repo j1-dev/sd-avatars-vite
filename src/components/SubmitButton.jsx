@@ -16,12 +16,8 @@ function SubmitButton({ onSubmit }) {
       targets: buttonRef.current,
       scale: [
         { value: 1, duration: 0 },
-        { value: 1.2, duration: 200 },
-        { value: 1, duration: 200 }
-      ],
-      borderRadius: [
-        { value: '50%', duration: 200, delay: 200 },
-        { value: '0%', duration: 200 }
+        { value: 1.1, duration: 150 },
+        { value: 1, duration: 150 }
       ],
       complete: function () {
         setShowCheck(true);
@@ -37,19 +33,30 @@ function SubmitButton({ onSubmit }) {
   }
 
   return (
-    <div className="absolute top-1/2 left-1/2 -mt-10 -ml-16 w-32 h-10 text-center">
+    <div className="flex justify-center">
       <button
         ref={buttonRef}
         onClick={handleClick}
-        className="outline-none h-10 w-32 rounded-full bg-green-500 border-2 border-green-500 text-white tracking-wider text-shadow-none text-xs font-bold cursor-pointer transition-all duration-200 ease-in">
-        {showCheck ? (
-           <FontAwesomeIcon icon="check" className="check-icon" />
-        ) : ( 
-          "Generar"
-        )}
+        className="relative inline-flex items-center mt-20 justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"
+      >
+        <span className={`relative px-5 py-2.5 transition-all ease-in duration-75 ${showCheck ? "bg-opacity-0" : "bg-white dark:bg-gray-900"} rounded-md group-hover:bg-opacity-0`}>
+          {showCheck ? (
+            <FontAwesomeIcon icon="check" className="check-icon" />
+          ) : (
+            "Generar"
+          )}
+        </span>
       </button>
     </div>
   );
 }
 
 export default SubmitButton;
+
+
+
+
+
+
+
+
