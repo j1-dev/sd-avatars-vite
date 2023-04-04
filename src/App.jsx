@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Navbar from './components/Navbar';
 import Main from './components/Main';
@@ -13,7 +13,7 @@ import SubmitButton from './components/SubmitButton';
 // const openai = new OpenAIApi(configuration);
 
 function App() {
-  const engineId = 'stable-diffusion-v1-5';
+  const engineId = 'stable-diffusion-512-v2-1';
   const apiHost = 'https://api.stability.ai';
   const apiKey = import.meta.env.VITE_SD_API_KEY;
 
@@ -21,6 +21,31 @@ function App() {
   const [number, setNumber] = useState(1);
   const [size, setSize] = useState('256x256');
   const [image, setImage] = useState('');
+
+  // Fetch call to get the list of available engines
+  // useEffect(() => {
+  //   const sub = async () => {
+  //     const url = `${apiHost}/v1/engines/list`;
+
+  //     if (!apiKey) throw new Error('Missing Stability API key.');
+
+  //     const response = await fetch(url, {
+  //       method: 'GET',
+  //       headers: {
+  //         Authorization: `Bearer ${apiKey}`,
+  //       },
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error(`Non-200 response: ${await response.text()}`);
+  //     }
+
+  //     const payload = await response.json();
+  //     console.log(payload);
+  //   };
+
+  //   sub();
+  // }, []);
 
   const generateImage = async () => {
     if (!apiKey) throw new Error('Missing Stability API key.');
