@@ -1,25 +1,76 @@
-import React from 'react';
 import 'tailwindcss/tailwind.css';
+import React, { useState } from "react";
+
 
 function Navbar() {
   return (
-    <div className="bg-white shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg flex">
-      <ul className="flex items-center text-center font-sans space-x-4 mx-auto">
-        {/* Other list items */}
-
-        <li className="relative group">
-          <a
-            href="#"
-            className="text-black text-lg font-semibold py-2 px-4 relative transition-colors duration-300 ease-in-out group-hover:text-gray-500">
-            Consejos
-          </a>
-          <div className="absolute -left-1 -top-1 h-px w-px bg-black transition-all duration-300 ease-in-out opacity-0 group-hover:opacity-100 group-hover:translate-x-[-100%] group-hover:translate-y-[50%]"></div>
-          <div className="absolute -right-1 -bottom-1 h-px w-px bg-black transition-all duration-300 ease-in-out opacity-0 group-hover:opacity-100 group-hover:translate-x-[100%] group-hover:translate-y-[-50%]"></div>
-        </li>
+    <div className="Navbar font-sans text-center bg-white shadow-md">
+      <ul className="flex justify-center items-center h-16">
+        {["Home", "Ejemplos", "Consejos"].map((menuItem, index) => (
+          <li className="list-none mx-2 my-1 relative group" key={index}>
+            <a
+              href="#"
+              className="py-2 px-3 text-black no-underline text-xl relative group-hover:text-gray-500 transition-all duration-350 ease-in-out"
+            >
+              {menuItem}
+              <span
+                className="absolute top-0 right-0 h-0 w-0 border-t border-r border-black opacity-0 group-hover:opacity-100 group-hover:h-[14px] group-hover:w-[14px] transition-all duration-350 ease-in-out transform -translate-x-full translate-y-1/2"
+              ></span>
+              <span
+                className="absolute bottom-0 left-0 h-0 w-0 border-b border-l border-black opacity-0 group-hover:opacity-100 group-hover:h-[14px] group-hover:w-[14px] transition-all duration-350 ease-in-out transform translate-x-full -translate-y-1/2"
+              ></span>
+            </a>
+          </li>
+        ))}
       </ul>
-      <div className="animation start-home"></div>
     </div>
   );
 }
 
 export default Navbar;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function Navbar() {
+//   return (
+//     <div className="Navbar font-sans text-center bg-white shadow-md">
+//       <ul className="flex justify-center items-center h-16">
+//         {["Home", "Ejemplos", "Consejos"].map((menuItem, index) => (
+//           <li className="list-none mx-2 my-1 relative" key={index}>
+//             <a
+//               href="#"
+//               className="py-2 px-3 text-black no-underline text-xl hover:text-gray-500"
+//             >
+//               {menuItem}
+//               <span className="before w-1 h-1 bg-black absolute top-0 right-0 opacity-0 transform -translate-x-full translate-y-1/2 transition-all ease-in-out duration-350"></span>
+//               <span className="after w-1 h-1 bg-black absolute bottom-0 left-0 opacity-0 transform translate-x-full -translate-y-1/2 transition-all ease-in-out duration-350"></span>
+//             </a>
+//           </li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// }
+
+// export default Navbar;
+
+
+
+
+
+
