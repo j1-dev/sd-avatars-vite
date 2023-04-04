@@ -34,11 +34,8 @@ function SubmitButton({ onSubmit }) {
       <button
         id="button"
         onClick={handleClick}
-        className="outline-none h-10 w-32 rounded-full bg-white border-2 border-green-500 text-green-500 tracking-wider text-shadow-none text-xs font-bold cursor-pointer transition-all duration-200 ease-in"
-      >
-        {showCheck && (
-          <FontAwesomeIcon icon="check" className="check-icon" />
-        )}
+        className="outline-none h-10 w-32 rounded-full bg-white border-2 border-green-500 text-green-500 tracking-wider text-shadow-none text-xs font-bold cursor-pointer transition-all duration-200 ease-in">
+        {showCheck && <FontAwesomeIcon icon="check" className="check-icon" />}
       </button>
     </div>
   );

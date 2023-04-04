@@ -1,13 +1,12 @@
 import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from './assets/vite.svg';
+
 import Navbar from './components/Navbar';
 import Main from './components/Main';
 import SubmitButton from './components/SubmitButton';
 import { Configuration, OpenAIApi } from 'openai';
 
 const configuration = new Configuration({
-  apiKey: process.env.REACT_APP_API_KEY,
+  apiKey: '',
 });
 
 const openai = new OpenAIApi(configuration);
