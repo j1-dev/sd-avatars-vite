@@ -101,9 +101,7 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <Main label={'Empieza a Crear'} setAttribute={setUserPrompt} />
-      <Main label={'Numero de Fotos'} setAttribute={handleNumberChange} />
-      <Main label="Tamaño" setAttribute={handleSizeChange} options={sizes} />
+      <div className="content flex justify-center">
       <div className="image-container">
         {image && (
           <img
@@ -113,6 +111,11 @@ function App() {
           />
         )}
       </div>
+    </div>
+      <Main label={'Empieza a Crear'} setAttribute={setUserPrompt} />
+      <Main label={'Numero de Fotos'} setAttribute={handleNumberChange} />
+      <Main label="Tamaño" setAttribute={handleSizeChange} options={sizes} />
+      
       <SubmitButton onSubmit={generateImage} />
     </div>
   );
