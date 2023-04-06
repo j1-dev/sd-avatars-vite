@@ -13,20 +13,33 @@ import SubmitButton from './components/SubmitButton';
 // const openai = new OpenAIApi(configuration);
 
 function App() {
-  const engineId = 'stable-diffusion-512-v2-1';
+  //const engineId = 'stable-diffusion-512-v2-1';
   const apiHost = 'https://api.stability.ai';
   const apiKey = import.meta.env.VITE_SD_API_KEY;
 
   const [userPrompt, setUserPrompt] = useState('');
   const [number, setNumber] = useState(1);
-  const [size, setSize] = useState('512x512');
+  const [size, setSize] = useState([512, 512]);
   const [image, setImage] = useState('');
 
-  // Converting size String to an array of two elements (width and height , declared in line 59)
-  const sizeStringToArray = (sizeString) => {
-    const sizeArray = sizeString.split('x').map(Number);
-    return sizeArray;
+
+  const getEngineId = (width, height) => {
+    if (width === 512 && height === 512) {
+      return 'stable-diffusion-512-v2-1';
+    } else if (width === 768 && height === 768) {
+      return 'stable-diffusion-768-v2-1';
+    } else if (width === 1024 && height === 1024) {
+      return 'stable-diffusion-1024-v2-1';
+    } else {
+      throw new Error('Invalid size');
+    }
   };
+
+  // Converting size String to an array of two elements (width and height , declared in line 59)
+  // const sizeStringToArray = (sizeString) => {
+  //   const sizeArray = sizeString.split('x').map(Number);
+  //   return sizeArray;
+  // };
 
 
   // Fetch call to get the list of available engines
@@ -56,7 +69,8 @@ function App() {
     
 
   const generateImage = async () => {
-    const [width, height] = sizeStringToArray(size);
+    const [width, height] = size;
+    const engineId = getEngineId(width, height);
 
     if (!apiKey) throw new Error('Missing Stability API key.');
     const response = await fetch(
@@ -99,7 +113,7 @@ function App() {
   };
 
   const handleSizeChange = (event) => {
-    setSize(event.target.value);
+    setSize(event.target.value.split('x').map(Number));
   };
 
   const handleNumberChange = (value) => {
@@ -124,7 +138,7 @@ function App() {
     </div>
       <Main label={'Empieza a Crear'} setAttribute={setUserPrompt} />
       <Main label={'Numero de Fotos'} setAttribute={handleNumberChange} />
-      <Main label="Tamaño" setAttribute={handleSizeChange} options={sizes} />
+      <Main label="Tamaño" setAttribute={handleSizeChange} options={sizes} value={`${size[0]}x${size[1]}`} />
       
       <SubmitButton onSubmit={generateImage} />
     </div>

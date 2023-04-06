@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import 'tailwindcss/tailwind.css';
 
-function Main({ label, setAttribute, options }) {
+function Main({ label, setAttribute, options, value }) {
   const handleChange = (event) => {
     setAttribute(event.target.value);
   };
@@ -17,7 +17,9 @@ function Main({ label, setAttribute, options }) {
               "url('data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E')",
             backgroundSize: '8px',
           }}
-          onChange={handleChange}>
+          onChange={handleChange}
+          defaultValue={value}>
+            
           {options.map((option, index) => (
             <option key={index} value={option}>
               {option}
@@ -28,6 +30,7 @@ function Main({ label, setAttribute, options }) {
         <input
           className="w-2/3 p-2 border border-gray-300 rounded bg-gray-200 text-sm"
           onChange={handleChange}
+          defaultValue={value}
         />
       )}
     </div>
