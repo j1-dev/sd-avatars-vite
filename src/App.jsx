@@ -19,8 +19,15 @@ function App() {
 
   const [userPrompt, setUserPrompt] = useState('');
   const [number, setNumber] = useState(1);
-  const [size, setSize] = useState('256x256');
+  const [size, setSize] = useState('512x512');
   const [image, setImage] = useState('');
+
+  // Converting size String to an array of two elements (width and height , declared in line 59)
+  const sizeStringToArray = (sizeString) => {
+    const sizeArray = sizeString.split('x').map(Number);
+    return sizeArray;
+  };
+
 
   // Fetch call to get the list of available engines
   // useEffect(() => {
@@ -46,8 +53,11 @@ function App() {
 
   //   sub();
   // }, []);
+    
 
   const generateImage = async () => {
+    const [width, height] = sizeStringToArray(size);
+
     if (!apiKey) throw new Error('Missing Stability API key.');
     const response = await fetch(
       `${apiHost}/v1/generation/${engineId}/text-to-image`,
@@ -66,8 +76,8 @@ function App() {
           ],
           cfg_scale: 7,
           clip_guidance_preset: 'FAST_BLUE',
-          height: 512,
-          width: 512,
+          height,
+          width,
           samples: 1,
           steps: 30,
         }),
@@ -96,7 +106,7 @@ function App() {
     setNumber(parseInt(value, 10));
   };
 
-  const sizes = ['256x256', '512x512', '1024x1024'];
+  const sizes = ['512x512','768x768','1024x1024'];
 
   return (
     <div className="App">
