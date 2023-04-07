@@ -21,7 +21,8 @@ function App() {
   const [number, setNumber] = useState(1);
   const [size, setSize] = useState([512, 512]);
   const [image, setImage] = useState('');
-
+  const [option, setOption] = useState(false);
+  const [initImg, setInitImg] = useState(null);
 
   const getEngineId = (width, height) => {
     if (width === 512 && height === 512) {
@@ -40,7 +41,6 @@ function App() {
   //   const sizeArray = sizeString.split('x').map(Number);
   //   return sizeArray;
   // };
-
 
   // Fetch call to get the list of available engines
   // useEffect(() => {
@@ -66,11 +66,13 @@ function App() {
 
   //   sub();
   // }, []);
-    
 
-  const generateImage = async () => {
-    const [width, height] = size;
-    const engineId = getEngineId(width, height);
+  const generateText2Image = async () => {
+    // const [width, height] = size;
+    const w = size[0];
+    const h = size[1];
+    // const engineId = getEngineId(width, height);
+    const engineId = 'stable-diffusion-512-v2-1';
 
     if (!apiKey) throw new Error('Missing Stability API key.');
     const response = await fetch(
@@ -89,11 +91,60 @@ function App() {
             },
           ],
           cfg_scale: 7,
-          clip_guidance_preset: 'FAST_BLUE',
-          height,
-          width,
+          sampler: 'K_HEUN',
+          height: h,
+          width: w,
           samples: 1,
-          steps: 30,
+          steps: 40,
+        }),
+      }
+    );
+    if (!response.ok) {
+      throw new Error(`Non-200 response: ${await response.text()}`);
+    }
+    await response.json().then((response) => {
+      setImage(response.artifacts[0].base64);
+    });
+    // responseJSON.artifacts.forEach((image, index) => {
+    //   fs.writeFileSync(
+    //     `./out/v1_txt2img_${index}.png`,
+    //     Buffer.from(image.base64, 'base64')
+    //   );
+    // });
+    console.log(response);
+  };
+
+  const generateImage2Image = async () => {
+    // const [width, height] = size;
+    const w = size[0];
+    const h = size[1];
+    // const engineId = getEngineId(width, height);
+    const engineId = 'stable-diffusion-512-v2-1';
+
+    if (!apiKey) throw new Error('Missing Stability API key.');
+    const response = await fetch(
+      `${apiHost}/v1/generation/${engineId}/image-to-image`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          text_prompts: [
+            {
+              text: `${userPrompt}`,
+            },
+          ],
+          init_image: initImg,
+          init_image_mode: 'IMAGE_STRENGTH',
+          cfg_scale: 7,
+          sampler: 'K_HEUN',
+          height: h,
+          width: w,
+          samples: 1,
+          steps: 40,
         }),
       }
     );
@@ -113,34 +164,41 @@ function App() {
   };
 
   const handleSizeChange = (event) => {
-    setSize(event.target.value.split('x').map(Number));
+    setSize(event.split('x').map(Number));
+    // setSize(event.target.value.split('x').map(Number));
   };
 
   const handleNumberChange = (value) => {
     setNumber(parseInt(value, 10));
   };
 
-  const sizes = ['512x512','768x768','1024x1024'];
+  const sizes = ['512x512', '768x768', '1024x1024'];
 
   return (
     <div className="App">
       <Navbar />
       <div className="content flex justify-center">
-      <div className="image-container">
-        {image && (
-          <img
-            src={`data:image/jpeg;base64,${image}`}
-            className="image"
-            alt="ai image"
-          />
-        )}
+        <div className="image-container">
+          {image && (
+            <img
+              src={`data:image/jpeg;base64,${image}`}
+              className="image"
+              alt="ai image"
+            />
+          )}
+        </div>
       </div>
-    </div>
       <Main label={'Empieza a Crear'} setAttribute={setUserPrompt} />
       <Main label={'Numero de Fotos'} setAttribute={handleNumberChange} />
-      <Main label="Tamaño" setAttribute={handleSizeChange} options={sizes} value={`${size[0]}x${size[1]}`} />
-      
-      <SubmitButton onSubmit={generateImage} />
+      <Main
+        label="Tamaño"
+        setAttribute={handleSizeChange}
+        options={sizes}
+        value={`${size[0]}x${size[1]}`}
+      />
+      {option && {}}
+
+      <SubmitButton onSubmit={generateText2Image} />
     </div>
   );
 }
